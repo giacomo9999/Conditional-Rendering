@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import Login from "./Login";
+import Gameboard from "./Gameboard";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = { loginPanelOpen: true };
+
+  toggleLoginPanel = () => {
+    console.log("Toggling panel...");
+    this.setState(prevState => ({ loginPanelOpen: !prevState.loginPanelOpen }));
+  };
+
+  render() {
+    const isLoggedIn = this.state.loginPanelOpen;
+    let componentToDisplay;
+
+    if (isLoggedIn) {
+      componentToDisplay = <Login toggleLoginPanel={this.toggleLoginPanel} />;
+    } else {
+      componentToDisplay = (
+        <div>
+          <Gameboard toggleLoginPanel={this.toggleLoginPanel} />
+        </div>
+      );
+    }
+    return (
+      <div className="container-outer">
+        <h3>I Am The App Component</h3>
+        {componentToDisplay}
+      </div>
+    );
+  }
 }
 
 export default App;
